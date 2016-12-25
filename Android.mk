@@ -1,3 +1,4 @@
+ifeq ($(TARGET_QCOM_AUDIO_VARIANT),caf-msm8916)
 ifneq ($(filter mpq8092 msm8960 msm8226 msm8x26 msm8610 msm8974 msm8x74 apq8084 msm8916 msm8994 msm8909,$(TARGET_BOARD_PLATFORM)),)
 
 MY_LOCAL_PATH := $(call my-dir)
@@ -23,3 +24,4 @@ endif
 endif
 
 endif
+endif #TARGET_QCOM_AUDIO_VARIANT
