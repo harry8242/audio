@@ -327,9 +327,6 @@ status_t AudioPolicyManagerCustom::setDeviceConnectionStateInt(audio_devices_t d
                mFMIsActive = false;
            }
            AudioParameter param = AudioParameter();
-           float volumeDb = mPrimaryOutput->mCurVolume[AUDIO_STREAM_MUSIC];
-           mPrevFMVolumeDb = volumeDb;
-           param.addFloat(String8("fm_volume"), Volume::DbToAmpl(volumeDb));
            param.addInt(String8("handle_fm"), (int)newDevice);
            mpClientInterface->setParameters(mPrimaryOutput->mIoHandle, param.toString());
         }
@@ -1351,7 +1348,8 @@ status_t AudioPolicyManagerCustom::checkAndSetVolume(audio_stream_type_t stream,
             mPrevFMVolumeDb = volumeDb;
             AudioParameter param = AudioParameter();
             param.addFloat(String8("fm_volume"), Volume::DbToAmpl(volumeDb));
-            mpClientInterface->setParameters(mPrimaryOutput->mIoHandle, param.toString(), delayMs);
+            //Double delayMs to avoid sound burst while device switch.
+            mpClientInterface->setParameters(mPrimaryOutput->mIoHandle, param.toString(), delayMs*2);
         }
 #endif /* FM_POWER_OPT end */
     }
